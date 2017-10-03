@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary  = 'LNPopupController is a framework for presenting view controllers as popups of other view controllers, much like the Apple Music and Podcasts apps.'
   s.homepage = 'hhttps://github.com/LeoNatan/LNPopupController'
   s.authors  = 'Leo Natan'
-  s.source   = { :git => 'https://github.com/danieltskv/LNPopupController.git', , :tag => 'v' << s.version.to_s }
+  s.source   = { :git => 'https://github.com/danieltskv/LNPopupController.git', :tag => 'v' << s.version.to_s }
   s.requires_arc = true
   s.ios.deployment_target = '9.0'
  
