@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.ios.deployment_target = '9.0'
  
-  s.source_files = 'LNPopupController//*.{h,m}', 'LNPopupController///*.{h,m}'
-  s.public_header_files = 'LNPopupController//.h'
-  s.private_header_files = 'LNPopupController/__/Private/.h'
+  s.source_files = 'LNPopupController/**/*.{h,m}'
+  s.public_header_files = 'LNPopupController/*.h'
+  #s.private_header_files = 'LNPopupController/__/Private/.h'
   s.resources = 'LNPopupController/*.xcassets'
 end
