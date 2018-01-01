@@ -18,8 +18,8 @@ void __LNPopupControllerOutOfWindowHierarchy()
 {
 }
 
-static const CFTimeInterval LNPopupBarGestureHeightPercentThreshold = 0.2;
-static const CGFloat		LNPopupBarDeveloperPanGestureThreshold = 0;
+static const CGFloat LNPopupBarGestureHeightPercentThreshold = 0.2;
+static const CGFloat LNPopupBarDeveloperPanGestureThreshold = 0;
 
 #pragma mark Popup Transition Coordinator
 
@@ -422,12 +422,7 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 		}
 	};
 	
-//	if(_popupControllerTargetState == LNPopupPresentationStateOpen)
-//	{
-//		//When opening the popup, let it disappear right away on snap behavior.
-//		updatePopupBarAlpha();
-//	}
-	[UIView animateWithDuration:animated ? resolvedStyle == LNPopupInteractionStyleSnap ? 0.65 : 0.5 : 0.0 delay:0.0 usingSpringWithDamping:spring ? 0.8 : 1.0 initialSpringVelocity:0 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState animations:^
+	[UIView animateWithDuration:animated ? (resolvedStyle == LNPopupInteractionStyleSnap ? 0.65 : 0.5) : 0.0 delay:0.0 usingSpringWithDamping:spring ? 0.8 : 1.0 initialSpringVelocity:0 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState animations:^
 	 {
 		 if(state != LNPopupPresentationStateTransitioning)
 		 {
@@ -577,6 +572,10 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 				possibleScrollView.contentOffset = CGPointMake(possibleScrollView.contentOffset.x, _dismissScrollViewStartingContentOffset);
 			}
 		}
+		else
+		{
+			return;
+		}
 	}
 	
 	if(_dismissGestureStarted == NO && (resolvedStyle == LNPopupInteractionStyleDrag || _popupControllerState > LNPopupPresentationStateClosed))
@@ -672,19 +671,17 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 		{
 			CGFloat barTransitionPercent = [self _percentFromPopupBar];
 			BOOL hasPassedHeighThreshold = _stateBeforeDismissStarted == LNPopupPresentationStateClosed ? barTransitionPercent > LNPopupBarGestureHeightPercentThreshold : barTransitionPercent < (1.0 - LNPopupBarGestureHeightPercentThreshold);
-			BOOL isPanUp = [pgr velocityInView:_containerController.view].y < 0;
-			BOOL isPanDown = [pgr velocityInView:_containerController.view].y > 0;
+			CGFloat panVelocity = [pgr velocityInView:_containerController.view].y;
 			
-			
-			if(isPanUp)
+			if(panVelocity < 0)
 			{
 				targetState = LNPopupPresentationStateOpen;
 			}
-			else if(isPanDown)
+			else if(panVelocity > 0)
 			{
 				targetState = LNPopupPresentationStateClosed;
 			}
-			else if(hasPassedHeighThreshold)
+			else if(hasPassedHeighThreshold == YES)
 			{
 				targetState = _stateBeforeDismissStarted == LNPopupPresentationStateClosed ? LNPopupPresentationStateOpen : LNPopupPresentationStateClosed;
 			}
